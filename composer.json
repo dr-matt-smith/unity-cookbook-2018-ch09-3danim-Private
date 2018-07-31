@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "pdf": "pandoc   --latex-engine=xelatex --reference-doc=reference.docx  __content.md -o __OUTPUT/_CHAPTER_09.pdf",
+    "word": "pandoc  --latex-engine=xelatex --reference-doc=reference.docx  __content.md -o __OUTPUT/_CHAPTER_09.docx",
+    "rtf": "pandoc  --latex-engine=xelatex --reference-doc=reference.docx  __content.md -s -o __OUTPUT/_CHAPTER_09.rtf",
+    "md": "pandoc  --latex-engine=xelatex reference.docx -o test.md",
+    "test": "pandoc  --latex-engine=xelatex --reference-doc=reference.docx  test.md  -o __OUTPUT/test.docx",
+    "tomd":"pandoc -f docx -t markdown -o draft.md draft.docx"
+  }
+}
