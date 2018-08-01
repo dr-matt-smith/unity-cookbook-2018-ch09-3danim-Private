@@ -1204,59 +1204,64 @@ To Rotating the character's torso to aim a weapon, do the following:
         using UnityEngine;
         using System.Collections;
 
-        public class MouseAim : MonoBehaviour {
+        public class MouseAim: MonoBehaviour  {
+        	public Transform spine;
+        	public Transform weapon;
+        	public GameObject crosshairImage;
+        	public Vector2 xLimit = new Vector2(-30f, 30f);
+        	public Vector2 yLimit= new Vector2(-30f, 30f);
+        	private float xAxis = 0f;
+        	private float yAxis = 0f;
 
-          public Transform spine;
-          private float xAxis = 0f;
-          private float yAxis = 0f;
-          public Vector2 xLimit = new Vector2(-30f,30f);
-          public Vector2 yLimit= new Vector2(-30f,30f);
-          public Transform weapon;
-          public GameObject crosshair;
-          private Vector2 aimLoc;
+        	public void LateUpdate() {
+        		RotateSpine();
+        		ShowCrosshairIfRaycastHit();
+        	}
 
-          public void LateUpdate(){
+        	private void RotateSpine() {
+        		yAxis += Input.GetAxis("Mouse X");
+        		yAxis = Mathf.Clamp(yAxis, yLimit.x, yLimit.y);
+        		xAxis -= Input.GetAxis("Mouse Y");
+        		xAxis = Mathf.Clamp(xAxis, xLimit.x, xLimit.y);
+        		Vector3 newSpineRotation = new Vector3(xAxis, yAxis, spine.localEulerAngles.z);
+        		spine.localEulerAngles = newSpineRotation;
+        	}
 
-            yAxis += Input.GetAxis ("Mouse X");
-            yAxis = Mathf.Clamp (yAxis, yLimit.x, yLimit.y);
-            xAxis -= Input.GetAxis ("Mouse Y");
-            xAxis = Mathf.Clamp (xAxis, xLimit.x, xLimit.y);
-            Vector3 corr = new Vector3(xAxis,yAxis, spine.localEulerAngles.z);
-            spine.localEulerAngles = corr;
-            RaycastHit hit;
-            Vector3 fwd = weapon.TransformDirection(Vector3.forward);
-            if (Physics.Raycast (weapon.position, fwd, out hit)) {
-              print (hit.transform.gameObject.name);
-              aimLoc =  Camera.main.WorldToScreenPoint(hit.point);
-              crosshair.SetActive(true);
-              crosshair.transform.position = aimLoc;
-            } else {
-             crosshair.SetActive(false);
-            }
-            Debug.DrawRay (weapon.position, fwd, Color.red);
-          }
+        	private void ShowCrosshairIfRaycastHit() {
+        		Vector3 weaponForwardDirection = weapon.TransformDirection(Vector3.forward);
+        		RaycastHit hit;
+        		Vector3 fromPosition = weapon.position + Vector3.one;
+        		if (Physics.Raycast (fromPosition, weaponForwardDirection, out hit)) {
+        			Vector3 hitLocation =  Camera.main.WorldToScreenPoint(hit.point);
+        			DisplayPointerImage(hitLocation);
+        		} else
+        			crosshairImage.SetActive(false);
+        	}
+
+        	private void DisplayPointerImage(Vector3 hitLocation) {
+        		crosshairImage.transform.position = hitLocation;
+        		crosshairImage.SetActive(true);
+        	}
         }
     ```
 
 1. In the Hierarchy create a new UI Image named Image-crosshair, by choosing menu: Create | UI | Image.
 
-1. From the Hierarchy view, create a new UI | Image GameObject.
-
 1. In the Inspector for the Rect Transform component, set its Width and Height to 16, and populate Source Image field with the crossAim sprite.
 
     ![Insert Image B08775_09_46.png](./09_figures/B08775_09_46.png)
 
-1. Select the MsLaser GameObject in the Hierarchy, and in the Inspector for the Mouse Aim component, populate the  followling:
+1. Select the MsLaser GameObject in the Hierarchy, and in the Inspector for the Mouse Aim component, populate the followling:
 
-    - Spine: mixamorig:Spine
+    - Spine: mixamorig:Spine (in MsLaser | mixamorigHips)
 
-    - Weapon: pointerPrefab
+    - Weapon: pointerPrefab (in MsLaser|Hips|Spine|Spine1|Spine2|RightShoulder|Arm|ForeArm|Hand)
 
-    - Crosshair: GameObject Image-crosshair,.
+    - Crosshair: GameObject Image-crosshair
 
-    ![Insert Image B08775_09_45.png](./09_figures/B08775_09_45.png)
+    ![Insert Image B08775_09_63.png](./09_figures/B08775_09_63.png)
 
-1. Play the scene. You will now be able to rotate the character's torso by moving the mouse. Even better, the crosshair UI texture will be displayed at the top of the  object that is being aimed at by the pointer.
+1. Play the scene. You will now be able to rotate the character's torso by moving the mouse. Even better, the Image-crosshair UI image will be displayed at the top of the  object that is being aimed at by the pointer.
 
 <!-- ******************************** -->
 <!-- ******************************** -->
@@ -1269,9 +1274,20 @@ Regarding the spine rotation, our script adds the horizontal and vertical speed 
 
 Additionally, our script uses a Raycast command to detect if there is any object's collider within the weapon's aim, in which case a crosshair will be drawn on the screen.
 
-<!-- ******************************* -->
-<!-- ******************************* -->
 
-## Getting ready
+<!-- ******************************** -->
+<!-- ******************************** -->
 
-Since this recipe's script was tailored for cameras standing behind the third-person controlled characters, we have included a more generic solution to the problem—in fact, a similar approach to the one presented in Unity 4.x Cookbook, Packt Publishing. An alternate script named MouseAimLokkAt, which can be found inside the 1362_07_09 folder, starts by converting our bi-dimensional mouse cursor screen's coordinates to the three-dimensional world space coordinates (stored in a point variable). Then, it rotates the character's torso towards the point location, using the LookAt() command to do so. Additionally, it makes sure that the spine does not extrapolate minY and maxY angles, otherwise causing distortions to the character model. Also, we have included a Compensation YAngle variable that makes it possible for us to fine-tune the character's alignment with the mouse cursor. Another addition is the option to freeze the X-axis rotation, in case you just want the character to rotate the torso laterally, but not look up or down. Again, this script uses a Raycast command to detect objects in front of the weapon's aim, drawing a crosshair on the screen when they are present.
+## There's more...
+
+Here are some ways to go further with this recipe.
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## Generic solution for Cameras other than Main Camera
+Since this recipe's script was tailored for cameras standing behind the third-person controlled characters, we have included a more generic solution to the problem—in fact, a similar approach to the one presented in Unity 4.x Cookbook, Packt Publishing.
+
+An alternate script named MouseAimLokkAt, which can be found inside the 09_09 folder, starts by converting our bi-dimensional mouse cursor screen's coordinates to the three-dimensional world space coordinates (stored in a point variable). Then, it rotates the character's torso towards the point location, using the LookAt() command to do so. Additionally, it makes sure that the spine does not extrapolate minY and maxY angles, otherwise causing distortions to the character model.
+
+Also, we have included a Compensation YAngle variable that makes it possible for us to fine-tune the character's alignment with the mouse cursor. Another addition is the option to freeze the X-axis rotation, in case you just want the character to rotate the torso laterally, but not look up or down. Again, this script uses a Raycast command to detect objects in front of the weapon's aim, drawing a crosshair on the screen when they are present.
