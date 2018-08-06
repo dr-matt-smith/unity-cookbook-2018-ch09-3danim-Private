@@ -21,7 +21,9 @@ In this chapter, we will cover:
 
 9. Rotating the character's torso to aim a weapon
 
-10. XXXX - 3D GameKit XXXXX
+10. Importing Mixamo characters and animations
+
+11. Creating a game with the 3D Gamekit
 
 
 <!-- ******************************** -->
@@ -1291,3 +1293,60 @@ Since this recipe's script was tailored for cameras standing behind the third-pe
 An alternate script named MouseAimLokkAt, which can be found inside the 09_09 folder, starts by converting our bi-dimensional mouse cursor screen's coordinates to the three-dimensional world space coordinates (stored in a point variable). Then, it rotates the character's torso towards the point location, using the LookAt() command to do so. Additionally, it makes sure that the spine does not extrapolate minY and maxY angles, otherwise causing distortions to the character model.
 
 Also, we have included a Compensation YAngle variable that makes it possible for us to fine-tune the character's alignment with the mouse cursor. Another addition is the option to freeze the X-axis rotation, in case you just want the character to rotate the torso laterally, but not look up or down. Again, this script uses a Raycast command to detect objects in front of the weapon's aim, drawing a crosshair on the screen when they are present.
+
+
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+<!-- ******** new recipe ********** -->
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+# Creating a game with the 3D Gamekit
+
+A collection of Unity 3D tools has been combined to become the Unity 3D GameKit. In this recipe we'll create xxx  etc.
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## Getting ready
+
+This recipe uses the free Unity Asset Store and Package Manager packages.
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## How to do it...
+
+To create a platform game with Tiles and Tilemaps, follow these steps:
+
+1. Create a new Unity 3D project.
+
+1. Use the Package Manager to install the following packages (required by the 3D GameKit):
+
+    - Cinemachine
+
+    - Post Processing
+
+    - Probuilder
+
+1. Import 3D GameKit (free from Unity Technologies) from the Asset Store.
+
+1. Close and then re-open the Unity Editor.
+
+1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
+
+    ![Insert Image B08775_09_64.png](./09_figures/B08775_09_64.png)
+
+1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a Procore 3D Plane forming the ground she is standing on.
+
+1. 
+
+
+
+Learn more about Probuilder:
+
+    - Unity Technology Probuilder videos:
+
+        - https://www.youtube.com/user/Unity3D/search?query=Probuilder
+
