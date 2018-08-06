@@ -21,10 +21,11 @@ In this chapter, we will cover:
 
 9. Rotating the character's torso to aim a weapon
 
-10. Importing Mixamo characters and animations
+10. Importing Mixamo characters and animations to Unity
 
-11. Creating a game with the 3D Gamekit
+11. Creating geometry with Probuilder
 
+12. Creating a game with the 3D Gamekit
 
 <!-- ******************************** -->
 <!-- ******************************** -->
@@ -1332,15 +1333,92 @@ To create a platform game with Tiles and Tilemaps, follow these steps:
 
 1. Import 3D GameKit (free from Unity Technologies) from the Asset Store.
 
+    ![Insert Image B08775_09_65.png](./09_figures/B08775_09_65.png)
+
+
+1. Agree to the Quality Settings popup diaglog. After a few minutes (it is setting up a prject with _lots_ of assets)
+, you'll see a new folder in the Project panel named 3DGamekit.
+
 1. Close and then re-open the Unity Editor.
+
+1. First, open the provided example Scene and explore the 3D world controlling the 3D Ellen character.
+
+NOTE: Movement is standard WASD-SPACE/array-keys. If you pick up XX you can use the weapon with XX.
 
 1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
 
     ![Insert Image B08775_09_64.png](./09_figures/B08775_09_64.png)
 
-1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a Procore 3D Plane forming the ground she is standing on.
+1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a ProBuilder 3D Plane forming the ground she is standing on.
 
 1. 
+
+woz
+
+
+
+1. Create a wide, flat area, and then to the right of where Ellen starts, create a very tall wall of earth, too tall for Ellen to jump over.
+
+1. Now between Ellen and the earth wall, add 4 Spikes, so she would get damage trying to jump over them. Drag instances of the Spikes Prefab from Project folder 2DGameKit | Prefabs | Environment.
+
+1. Now, to make things even harder, add a Chomper enemy between the Spikes and the earth wall! Drag an instance of the Chomper Prefab from Project folder 2DGameKit | Prefabs | Enemies.
+
+    ![Insert Image B08775_08_63.png](./08_figures/B08775_08_63.png)
+
+1. We have to give Ellen some way to get past the earth wall, that avoids the Spikes and Chomper obstacles. Let's add a Teleporter, to the left of where Ellen starts. Drag an instance of the Teleporter Prefab from Project folder 2DGameKit | Prefabs | Interactables.
+
+1. Let's create a destination point for the Teleporter using a custom Sprite. Import the Enemy Bug Sprite into this project, and drag an instance from the Project panel into the Scene - somewhere to the right of the earth wall.
+
+1. Teleporters require a Transition Point component in the GameObject that is to be the destination of the teleportation. First add a Collider 2D to Enemy Bug, choose Add Component | Physics 2D | Box Collider 2D. Check its Is Trigger option.
+
+1. Now add a Transition Point component to Enemy Bug, choose Add Component, then search for Transition, then add Transition Point.
+
+1. We can now set up the Teleporter. With the Teleporter selected in the Hierarchy, in the Inspector for the Transition Point (Script) component do the following:
+
+    - Transitioning Game Object: drag Ellen into this slot
+
+    - Transition Type: choose Same Scene from the dropdown menu
+
+    - Destination Transform: drag Enemy Bug into this Transition Point slot
+
+    - Transition When: choose On Trigger Enter from the dropdown menu
+
+    ![Insert Image B08775_08_66.png](./08_figures/B08775_08_66.png)
+
+1. Run the Scene. Ellen can safetly avoid the Spikes and Chomper by using the Teleporter.
+
+1. Let's make it a bit more interesting - having the Teleporter GameObject initially in active (not visible or interactable with), and adding a switch that Ellen has to hit to make the Teleporter active.
+
+1. Select the Teleporter GameObject in the Hierachy, and uncheck its active box at the top-left of the Inpsector - the GameObejct should be invisible, and appear greyed out in the Hierarchy.
+
+1. Add a single use switch to the game, to the left of where Ellen starts. Drag an instance of the Single Use Switch from Project folder 2DGameKit | Prefabs | Interactables.
+
+1. With the Single Use Switch selected in the Hierarchy, in the Inspector set the following:
+
+    - Layers: add Layer Player to the interactble Layers (so swithc can be enabled by Player colliding or firing a bullet)
+
+    - On Enter: Drag Teleporter into a free RunTime Only GameObject Slot, and change the action dropdown menu from No Function to GameObject | Set Active (bool), and then check the checkbox that appears.
+
+1. Run the Scene. Ellen now has to travel over to the switch, to reveal the Teleporter, that then leads her to safetly transport to the Enemy Bug location, beyond the earth wall and away from danger.
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## How it works...
+
+We have dipped our toes into the wide range of features of the 2D GameKit. Hopefully this recipe gives an idea of how to work with the provided Prefabs, and also how to explore how custom artwork can be used, with appropriately added components, to create your own GameObjects using the features of the 2D GameKit.
+
+If you look at the Ellen 2D character, you'll see some scripted components that manage the characters interaction with the 2D GameKit. These include:
+
+- CharacterController 2D - movement and physics interactions
+
+- Player Input - keyboard/input control mapping, so you can change which keys/controller buttons control movement, jumping, etc.
+
+- Player Character - how character interactives with the 2D GameKit, including fighting (melee), damage, bullet pool etc.
+
+Learn more about Ellen and her component in the reference guide:
+
+- https://unity3d.com/learn/tutorials/projects/2d-game-kit/ellen?playlist=49633
 
 
 
@@ -1350,3 +1428,17 @@ Learn more about Probuilder:
 
         - https://www.youtube.com/user/Unity3D/search?query=Probuilder
 
+    - YouTube video tutorials from Jayanam
+    
+        - https://www.youtube.com/watch?v=MclauVga5wI
+        
+        
+
+
+
+====
+
+
+Fuse - free Beta to Adobe Create Clooud members
+
+download from https://creative.adobe.com/products/download/fuse
