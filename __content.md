@@ -21,11 +21,11 @@ In this chapter, we will cover:
 
 9. Rotating the character's torso to aim a weapon
 
-10. Importing Mixamo characters and animations to Unity
+10. Creating geometry with Probuilder
 
-11. Creating geometry with Probuilder
+11. Creating a game with the 3D Gamekit
 
-12. Creating a game with the 3D Gamekit
+
 
 <!-- ******************************** -->
 <!-- ******************************** -->
@@ -1303,9 +1303,15 @@ Also, we have included a Compensation YAngle variable that makes it possible for
 <!-- ******************************* -->
 <!-- ******************************* -->
 
-# Creating a game with the 3D Gamekit
+# Creating geometry with Probuilder
 
-A collection of Unity 3D tools has been combined to become the Unity 3D GameKit. In this recipe we'll create xxx  etc.
+A recent addition to the 3D Unity tools is Probuilder, which allows you to create and manipulate geometry inside the 
+Unity Editor. Much more powerful than the existing Terrain editor, Probuilder allows you to create 3D Primitives, and
+ then manipulate them, e.g. by extruding, or moving Vertices, Edges or Faces, and then painting with colors, or 
+ Texturing with Materials.
+
+In this recipe we'll create some Geometry that might be useful for an original game, or to add to a 3DGamekit Scene 
+(such as worked with in the recipe following this one).
 
 <!-- ******************************* -->
 <!-- ******************************* -->
@@ -1336,14 +1342,13 @@ To create a platform game with Tiles and Tilemaps, follow these steps:
     ![Insert Image B08775_09_65.png](./09_figures/B08775_09_65.png)
 
 
-1. Agree to the Quality Settings popup diaglog. After a few minutes (it is setting up a prject with _lots_ of assets)
-, you'll see a new folder in the Project panel named 3DGamekit.
+1. Agree to the Quality Settings popup diaglog. After a few minutes (it is setting up a prject with _lots_ of assets), you'll see a new folder in the Project panel named 3DGamekit.
 
 1. Close and then re-open the Unity Editor.
 
 1. First, open the provided example Scene and explore the 3D world controlling the 3D Ellen character.
 
-NOTE: Movement is standard WASD-SPACE/array-keys. If you pick up XX you can use the weapon with XX.
+    NOTE: Movement is standard WASD-SPACE/arraw-keys. Camera control is via the mouse pointer.
 
 1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
 
@@ -1351,76 +1356,53 @@ NOTE: Movement is standard WASD-SPACE/array-keys. If you pick up XX you can use 
 
 1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a ProBuilder 3D Plane forming the ground she is standing on.
 
-1. 
+1. Add a small door in the Scene. Drag a clone of Prefab DoorSmall from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) in the middle of the 3D Plane Scene.
 
-woz
+1. Add a Crystal in the Scene, on the opposite side of the door from where the Ellen character starts. Drag a clone of Prefab Crystal from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene behind the door.
+
+1. Now add some walls on either side of the door - so the door must be opened in order for Ellen to reach the Crystal. Drag 2 clones of Prefab Wall2x from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene.
+
+    ![Insert Image B08775_09_67.png](./09_figures/B08775_09_67.png)
+
+1. We now need to connect the PressurePad to the Door, so when Ellen steps on the PressurePad it sends a mesage to 
+Open the door. This is very straightforward, since the Door has a GameCommandReceiver component, which can be linked 
+to the PressurePad's Send on Trigger Enter (Script) component. Select the PressurePad GameObject in the Hierarchy, 
+and drag DoorSmall into the public Interactive Object slot of its Send on Trigger Enter (Script) component.
+
+    ![Insert Image B08775_09_68.png](./09_figures/B08775_09_68.png)
+
+1. Run the Scene. When Ellen steps onto the PressurePad the Door should open.
+
+1. We now need to make the Crystal collidable by adding a Box Collider. Add a Box Collider component to GameObject 
+Crystal, and check its On Trigger option.
+
+1. The 3DGamekit has inventory features. Let's make the Crystal collectable by the player by adding an Inventory Item
+ (Script) component. In the Inspector cick Add Component, then type 'inven', and choose the Inventory Item scripted 
+ component. For that component type Crystal as the name of the Inventory Key.
+ 
+    ![Insert Image B08775_09_66.png](./09_figures/B08775_09_66.png)
+
+    NOTE: The Inventory Key names must match, between the Inventory Object and the Inventory slot.
+ 
+1. Now we can add an Inventory Controller (Script) component to Ellen, with a slot for a Crystal. In the Hierarchy select GameObject Ellen. In the Inspector click Add Component, then type 'inven', and choose the Inventory Item scripted component. Change the Size 
+from 0 to 1, and for its Key type Crystal. For the On Add() events click the plus sign +, to create a new event. Drag
+ Ellen into the Object slot (below Runtime Only). Change the function from No Function to InventoryController Add 
+ Item. Finally, type the name of this item in the Inventory to be Crystal.
 
 
+    ![Insert Image B08775_09_69.png](./09_figures/B08775_09_69.png)
 
-1. Create a wide, flat area, and then to the right of where Ellen starts, create a very tall wall of earth, too tall for Ellen to jump over.
-
-1. Now between Ellen and the earth wall, add 4 Spikes, so she would get damage trying to jump over them. Drag instances of the Spikes Prefab from Project folder 2DGameKit | Prefabs | Environment.
-
-1. Now, to make things even harder, add a Chomper enemy between the Spikes and the earth wall! Drag an instance of the Chomper Prefab from Project folder 2DGameKit | Prefabs | Enemies.
-
-    ![Insert Image B08775_08_63.png](./08_figures/B08775_08_63.png)
-
-1. We have to give Ellen some way to get past the earth wall, that avoids the Spikes and Chomper obstacles. Let's add a Teleporter, to the left of where Ellen starts. Drag an instance of the Teleporter Prefab from Project folder 2DGameKit | Prefabs | Interactables.
-
-1. Let's create a destination point for the Teleporter using a custom Sprite. Import the Enemy Bug Sprite into this project, and drag an instance from the Project panel into the Scene - somewhere to the right of the earth wall.
-
-1. Teleporters require a Transition Point component in the GameObject that is to be the destination of the teleportation. First add a Collider 2D to Enemy Bug, choose Add Component | Physics 2D | Box Collider 2D. Check its Is Trigger option.
-
-1. Now add a Transition Point component to Enemy Bug, choose Add Component, then search for Transition, then add Transition Point.
-
-1. We can now set up the Teleporter. With the Teleporter selected in the Hierarchy, in the Inspector for the Transition Point (Script) component do the following:
-
-    - Transitioning Game Object: drag Ellen into this slot
-
-    - Transition Type: choose Same Scene from the dropdown menu
-
-    - Destination Transform: drag Enemy Bug into this Transition Point slot
-
-    - Transition When: choose On Trigger Enter from the dropdown menu
-
-    ![Insert Image B08775_08_66.png](./08_figures/B08775_08_66.png)
-
-1. Run the Scene. Ellen can safetly avoid the Spikes and Chomper by using the Teleporter.
-
-1. Let's make it a bit more interesting - having the Teleporter GameObject initially in active (not visible or interactable with), and adding a switch that Ellen has to hit to make the Teleporter active.
-
-1. Select the Teleporter GameObject in the Hierachy, and uncheck its active box at the top-left of the Inpsector - the GameObejct should be invisible, and appear greyed out in the Hierarchy.
-
-1. Add a single use switch to the game, to the left of where Ellen starts. Drag an instance of the Single Use Switch from Project folder 2DGameKit | Prefabs | Interactables.
-
-1. With the Single Use Switch selected in the Hierarchy, in the Inspector set the following:
-
-    - Layers: add Layer Player to the interactble Layers (so swithc can be enabled by Player colliding or firing a bullet)
-
-    - On Enter: Drag Teleporter into a free RunTime Only GameObject Slot, and change the action dropdown menu from No Function to GameObject | Set Active (bool), and then check the checkbox that appears.
-
-1. Run the Scene. Ellen now has to travel over to the switch, to reveal the Teleporter, that then leads her to safetly transport to the Enemy Bug location, beyond the earth wall and away from danger.
+1. Run the Scene. Ellen can now open the Door (via the PressurePad), and walk into the Crystal, which is added to her
+ inventory.
+ 
 
 <!-- ******************************** -->
 <!-- ******************************** -->
 
 ## How it works...
 
-We have dipped our toes into the wide range of features of the 2D GameKit. Hopefully this recipe gives an idea of how to work with the provided Prefabs, and also how to explore how custom artwork can be used, with appropriately added components, to create your own GameObjects using the features of the 2D GameKit.
-
-If you look at the Ellen 2D character, you'll see some scripted components that manage the characters interaction with the 2D GameKit. These include:
-
-- CharacterController 2D - movement and physics interactions
-
-- Player Input - keyboard/input control mapping, so you can change which keys/controller buttons control movement, jumping, etc.
-
-- Player Character - how character interactives with the 2D GameKit, including fighting (melee), damage, bullet pool etc.
-
-Learn more about Ellen and her component in the reference guide:
-
-- https://unity3d.com/learn/tutorials/projects/2d-game-kit/ellen?playlist=49633
-
-
+xxxx
+ 
 
 Learn more about Probuilder:
 
@@ -1428,17 +1410,122 @@ Learn more about Probuilder:
 
         - https://www.youtube.com/user/Unity3D/search?query=Probuilder
 
-    - YouTube video tutorials from Jayanam
+
+
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+<!-- ******** new recipe ********** -->
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+# Creating a game with the 3D Gamekit
+
+A collection of Unity 3D tools has been combined to become the Unity 3D GameKit. In this recipe we'll create a new 
+Scene, and make use of some of the kits Preabs and Scripts to illustrate how characters can interactive with objects 
+like doors and pickups.
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## Getting ready
+
+This recipe uses the free Unity Asset Store and Package Manager packages.
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## How to do it...
+
+To create a platform game with Tiles and Tilemaps, follow these steps:
+
+1. Create a new Unity 3D project.
+
+1. Use the Package Manager to install the following packages (required by the 3D GameKit):
+
+    - Cinemachine
+
+    - Post Processing
+
+    - Probuilder
+
+1. Import 3D GameKit (free from Unity Technologies) from the Asset Store.
+
+    ![Insert Image B08775_09_65.png](./09_figures/B08775_09_65.png)
+
+
+1. Agree to the Quality Settings popup diaglog. After a few minutes (it is setting up a prject with _lots_ of assets), you'll see a new folder in the Project panel named 3DGamekit.
+
+1. Close and then re-open the Unity Editor.
+
+1. First, open the provided example Scene and explore the 3D world controlling the 3D Ellen character.
+
+    NOTE: Movement is standard WASD-SPACE/arraw-keys. Camera control is via the mouse pointer.
+
+1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
+
+    ![Insert Image B08775_09_64.png](./09_figures/B08775_09_64.png)
+
+1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a ProBuilder 3D Plane forming the ground she is standing on.
+
+1. Add a small door in the Scene. Drag a clone of Prefab DoorSmall from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) in the middle of the 3D Plane Scene.
+
+1. Add a Crystal in the Scene, on the opposite side of the door from where the Ellen character starts. Drag a clone of Prefab Crystal from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene behind the door.
+
+1. Now add some walls on either side of the door - so the door must be opened in order for Ellen to reach the Crystal. Drag 2 clones of Prefab Wall2x from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene.
+
+    ![Insert Image B08775_09_67.png](./09_figures/B08775_09_67.png)
+
+1. We now need to connect the PressurePad to the Door, so when Ellen steps on the PressurePad it sends a mesage to 
+Open the door. This is very straightforward, since the Door has a GameCommandReceiver component, which can be linked 
+to the PressurePad's Send on Trigger Enter (Script) component. Select the PressurePad GameObject in the Hierarchy, 
+and drag DoorSmall into the public Interactive Object slot of its Send on Trigger Enter (Script) component.
+
+    ![Insert Image B08775_09_68.png](./09_figures/B08775_09_68.png)
+
+1. Run the Scene. When Ellen steps onto the PressurePad the Door should open.
+
+1. We now need to make the Crystal collidable by adding a Box Collider. Add a Box Collider component to GameObject 
+Crystal, and check its On Trigger option.
+
+1. The 3DGamekit has inventory features. Let's make the Crystal collectable by the player by adding an Inventory Item
+ (Script) component. In the Inspector cick Add Component, then type 'inven', and choose the Inventory Item scripted 
+ component. For that component type Crystal as the name of the Inventory Key.
+ 
+    ![Insert Image B08775_09_66.png](./09_figures/B08775_09_66.png)
+
+    NOTE: The Inventory Key names must match, between the Inventory Object and the Inventory slot.
+ 
+1. Now we can add an Inventory Controller (Script) component to Ellen, with a slot for a Crystal. In the Hierarchy select GameObject Ellen. In the Inspector click Add Component, then type 'inven', and choose the Inventory Item scripted component. Change the Size 
+from 0 to 1, and for its Key type Crystal. For the On Add() events click the plus sign +, to create a new event. Drag
+ Ellen into the Object slot (below Runtime Only). Change the function from No Function to InventoryController Add 
+ Item. Finally, type the name of this item in the Inventory to be Crystal.
+
+
+    ![Insert Image B08775_09_69.png](./09_figures/B08775_09_69.png)
+
+1. Run the Scene. Ellen can now open the Door (via the PressurePad), and walk into the Crystal, which is added to her
+ inventory.
+ 
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## How it works...
+
+We have dipped our toes into the wide range of features of the 3D GameKit. Hopefully this recipe gives an idea of how
+ to work with the provided Prefabs, and how 3DGamekit components could be added to custom GameObjects.
+ 
+Learn more:
+
+    - The 3DGamekit reference guide
     
-        - https://www.youtube.com/watch?v=MclauVga5wI
+        - https://unity3d.com/learn/tutorials/projects/3d-game-kit/introduction-3d-reference-guide?playlist=51061
+
+    - The Unity 3DGamekit walkthrough pages:
+    
+        - https://unity3d.com/learn/tutorials/projects/3d-game-kit/introduction-walkthrough?playlist=51061
         
-        
-
-
-
-====
-
-
-Fuse - free Beta to Adobe Create Clooud members
-
-download from https://creative.adobe.com/products/download/fuse
+    - Download the 3DGameKit, including sample Scene, from the Asset Store:
+    
+        - https://assetstore.unity.com/packages/essentials/tutorial-projects/3d-game-kit-beta-115747?_ga=2.127077645.1823824032.1533576706-1834737598.1481552646
