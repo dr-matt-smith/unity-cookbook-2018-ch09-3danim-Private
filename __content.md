@@ -1305,10 +1305,7 @@ Also, we have included a Compensation YAngle variable that makes it possible for
 
 # Creating geometry with Probuilder
 
-A recent addition to the 3D Unity tools is Probuilder, which allows you to create and manipulate geometry inside the 
-Unity Editor. Much more powerful than the existing Terrain editor, Probuilder allows you to create 3D Primitives, and
- then manipulate them, e.g. by extruding, or moving Vertices, Edges or Faces, and then painting with colors, or 
- Texturing with Materials.
+A recent addition to the 3D Unity tools is Probuilder, which allows you to create and manipulate geometry inside the Unity Editor. Much more powerful than the existing Terrain editor, Probuilder allows you to create 3D Primitives, and then manipulate them, e.g. by extruding, or moving Vertices, Edges or Faces, and then painting with colors, or Texturing with Materials.
 
 In this recipe we'll create some Geometry that might be useful for an original game, or to add to a 3DGamekit Scene 
 (such as worked with in the recipe following this one).
@@ -1325,72 +1322,12 @@ This recipe uses the free Unity Asset Store and Package Manager packages.
 
 ## How to do it...
 
-To create a platform game with Tiles and Tilemaps, follow these steps:
+To create geometry with Probuilder, follow these steps:
 
 1. Create a new Unity 3D project.
 
-1. Use the Package Manager to install the following packages (required by the 3D GameKit):
+1. Use the Package Manager to install the Probuilder package.
 
-    - Cinemachine
-
-    - Post Processing
-
-    - Probuilder
-
-1. Import 3D GameKit (free from Unity Technologies) from the Asset Store.
-
-    ![Insert Image B08775_09_65.png](./09_figures/B08775_09_65.png)
-
-
-1. Agree to the Quality Settings popup diaglog. After a few minutes (it is setting up a prject with _lots_ of assets), you'll see a new folder in the Project panel named 3DGamekit.
-
-1. Close and then re-open the Unity Editor.
-
-1. First, open the provided example Scene and explore the 3D world controlling the 3D Ellen character.
-
-    NOTE: Movement is standard WASD-SPACE/arraw-keys. Camera control is via the mouse pointer.
-
-1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
-
-    ![Insert Image B08775_09_64.png](./09_figures/B08775_09_64.png)
-
-1. As you can see, the new Scene starts off containing an animated 3D character (Ellen), on a ProBuilder 3D Plane forming the ground she is standing on.
-
-1. Add a small door in the Scene. Drag a clone of Prefab DoorSmall from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) in the middle of the 3D Plane Scene.
-
-1. Add a Crystal in the Scene, on the opposite side of the door from where the Ellen character starts. Drag a clone of Prefab Crystal from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene behind the door.
-
-1. Now add some walls on either side of the door - so the door must be opened in order for Ellen to reach the Crystal. Drag 2 clones of Prefab Wall2x from the Project panel (Assets | 3DGamekit | Prefabs | Interactables) into the Scene.
-
-    ![Insert Image B08775_09_67.png](./09_figures/B08775_09_67.png)
-
-1. We now need to connect the PressurePad to the Door, so when Ellen steps on the PressurePad it sends a mesage to 
-Open the door. This is very straightforward, since the Door has a GameCommandReceiver component, which can be linked 
-to the PressurePad's Send on Trigger Enter (Script) component. Select the PressurePad GameObject in the Hierarchy, 
-and drag DoorSmall into the public Interactive Object slot of its Send on Trigger Enter (Script) component.
-
-    ![Insert Image B08775_09_68.png](./09_figures/B08775_09_68.png)
-
-1. Run the Scene. When Ellen steps onto the PressurePad the Door should open.
-
-1. We now need to make the Crystal collidable by adding a Box Collider. Add a Box Collider component to GameObject 
-Crystal, and check its On Trigger option.
-
-1. The 3DGamekit has inventory features. Let's make the Crystal collectable by the player by adding an Inventory Item
- (Script) component. In the Inspector cick Add Component, then type 'inven', and choose the Inventory Item scripted 
- component. For that component type Crystal as the name of the Inventory Key.
- 
-    ![Insert Image B08775_09_66.png](./09_figures/B08775_09_66.png)
-
-    NOTE: The Inventory Key names must match, between the Inventory Object and the Inventory slot.
- 
-1. Now we can add an Inventory Controller (Script) component to Ellen, with a slot for a Crystal. In the Hierarchy select GameObject Ellen. In the Inspector click Add Component, then type 'inven', and choose the Inventory Item scripted component. Change the Size 
-from 0 to 1, and for its Key type Crystal. For the On Add() events click the plus sign +, to create a new event. Drag
- Ellen into the Object slot (below Runtime Only). Change the function from No Function to InventoryController Add 
- Item. Finally, type the name of this item in the Inventory to be Crystal.
-
-
-    ![Insert Image B08775_09_69.png](./09_figures/B08775_09_69.png)
 
 1. Run the Scene. Ellen can now open the Door (via the PressurePad), and walk into the Crystal, which is added to her
  inventory.
@@ -1425,6 +1362,9 @@ A collection of Unity 3D tools has been combined to become the Unity 3D GameKit.
 Scene, and make use of some of the kits Preabs and Scripts to illustrate how characters can interactive with objects 
 like doors and pickups.
 
+![Insert Image B08775_09_70.png](./09_figures/B08775_09_70.png)
+
+
 <!-- ******************************* -->
 <!-- ******************************* -->
 
@@ -1437,7 +1377,7 @@ This recipe uses the free Unity Asset Store and Package Manager packages.
 
 ## How to do it...
 
-To create a platform game with Tiles and Tilemaps, follow these steps:
+To create a game with the 3D Gamekit, follow these steps:
 
 1. Create a new Unity 3D project.
 
@@ -1445,7 +1385,7 @@ To create a platform game with Tiles and Tilemaps, follow these steps:
 
     - Cinemachine
 
-    - Post Processing
+    - Post Processing (Agree to the Quality Settings popup diaglog)
 
     - Probuilder
 
@@ -1460,7 +1400,8 @@ To create a platform game with Tiles and Tilemaps, follow these steps:
 
 1. First, open the provided example Scene and explore the 3D world controlling the 3D Ellen character.
 
-    NOTE: Movement is standard WASD-SPACE/arraw-keys. Camera control is via the mouse pointer.
+    NOTE: Movement is standard WASD-SPACE/arraw-keys. Camera control is via the mouse pointer. Click left mouse 
+    button to use a weapon.
 
 1. Create a new 3D GameKit Scene, by choosing menu: Kit Tools | Create New Scene. You'll then be asked to name the Scene, and a new Scene asset file will be created in your Project | Assets folder. You'll see there are quite a few special GameObjects in the Hierarchy of your new Scene:
 
