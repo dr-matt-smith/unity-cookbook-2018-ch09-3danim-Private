@@ -1329,26 +1329,64 @@ To create geometry with Probuilder, follow these steps:
 
 1. Use the Package Manager to install the Probuilder package.
 
+1. Display the Probuilder panel, choose menu: Tools | Probuilder | Window.
 
-1. Run the Scene. Ellen can now open the Door (via the PressurePad), and walk into the Crystal, which is added to her
- inventory.
+1. Dock the panel (next the Hierarchy works well). Choose Text Mode or Icon Mode as you prefer via the right-mouse 
+context menu.
+
+1. Create a new Probuild Plane, by clicking New Shape, and choosing Plane from the popup Shape Tool window. Accept 
+the default options and click the green Build Plane button.
+
+1. With the new Probuild Plane selected in the Hierarchy, you'll see the object selected in the Scene panel, and its  properties in the Inspector. We can see in the Inspector that it has as well as its Transform, Mesh and Mesh Renderer components, there are 2 special Probuild components, the Pb_mesh_nnnnn and Pb_Object (Script). 
  
+    NOTE: The Pb_mesh_nnnnn is a special component, that stored the data for the 3D object mesh of this GameObject - this data can be edited in the Scene view at Design-Time. At Run-Time a Unity Mesh is created based on this data.
+ 
+     ![Insert Image B08775_09_78.png](./09_figures/B08775_09_78.png)
+
+1. Note that when a Probuilder GameObject is selected there are is a small Probuilder tool icon bar displayed in the 
+Scene panel, allowing selection modes of: Object / Vertex / Edge / Face.
+
+     ![Insert Image B08775_09_79.png](./09_figures/B08775_09_79.png)
+
+1. Let's make a depression in the middle of our Plane. Choose Face selection (the right-most of the 4 Probuilder 
+section icons), and using the Shift-key for multiple section, select the 4 inner faces (selected faces turn Yellow). 
+Then use the Y-axis arrow to move these 4 selected faces downwards.
+
+     ![Insert Image B08775_09_80.png](./09_figures/B08775_09_80.png)
+
+1. Let's Vertex paint some color on the the object. This is easier to do carefully when there are more faces. First, 
+in the Probuilder panel, click the Subdivide 
+
+1. Now click Probuilder Vertex Colors +. The Probuilder Vertex Painter popup panel should be displayed. Click the red
+ color, and choose a darker red. Then click the white square above your color to choose this dark red brush color. 
+ Make the brush size big (2 or 3), and paint all over the Plane to make it all dark red. Now click the white square 
+ in the Vertex Painter panel to choose the yellow brush, and make the brush size smaller (say 1.5). Now click just 
+ the 9 vertices in the middle of the depressed region of the Plane. Now you should have a dark red Plane, with yellow
+  in the lower parts of it.
+
+     ![Insert Image B08775_09_81.png](./09_figures/B08775_09_81.png)
+
+1. Save your Scene - since the Probuilder Mesh data is stored in the Scene data, you'll lose all your probuilder work
+ if you forget to save your Scene.
 
 <!-- ******************************** -->
 <!-- ******************************** -->
 
 ## How it works...
 
-xxxx
- 
+You've added the Probuilder package to a new 3D project, and used the Probuilder tools panel to add a Probuilder mesh object to the Scene. You've used the face selection tool to allow you to select and then move some of the faces, to create a depression. You then subdivided the object, to give you more faces to work with, for final detailed working. Finally you learned to Vertex Paint with difference 
+colored and sized brushes.
 
-Learn more about Probuilder:
+Probuilder offers many more featuress, including creating object by drawing a line-by-line polygon, and Texturing 
+surfaces rather than just simple Vertex Painting. Learn more about Probuilder:
+
+    - Unity Technology Probuilder documentation manual:
+    
+        - https://docs.unity3d.com/Packages/com.unity.probuilder@3.0/manual/index.html
 
     - Unity Technology Probuilder videos:
 
         - https://www.youtube.com/user/Unity3D/search?query=Probuilder
-
-
 
 
 <!-- ******************************* -->
@@ -1438,10 +1476,22 @@ Crystal, and check its On Trigger option.
 
     NOTE: The Inventory Key names must match, between the Inventory Object and the Inventory slot.
  
-1. Now we can add an Inventory Controller (Script) component to Ellen, with a slot for a Crystal. In the Hierarchy select GameObject Ellen. In the Inspector click Add Component, then type 'inven', and choose the Inventory Item scripted component. Change the Size 
-from 0 to 1, and for its Key type Crystal. For the On Add() events click the plus sign +, to create a new event. Drag
- Ellen into the Object slot (below Runtime Only). Change the function from No Function to InventoryController Add 
- Item. Finally, type the name of this item in the Inventory to be Crystal.
+1. Now we can add an Inventory Controller (Script) component to Ellen, with a slot for a Crystal. In the Hierarchy select GameObject Ellen. In the Inspector click Add Component, then type 'inven', and choose the Inventory Item scripted component. 
+
+1. In the Inspector we now need to configure the properties of the Inventory Controller (Script) component as 
+follows:
+
+    - Change the Size from 0 to 1
+    
+    - For its Key type Crystal
+    
+    - For the On Add() events click the plus sign +, to create a new event. 
+    
+    - Drag Ellen into the Object slot for the new event (below Runtime Only). 
+    
+    - Change the function from No Function to InventoryController Add Item. 
+    
+    - Finally, type the name of this item in the Inventory to be Crystal.
 
     ![Insert Image B08775_09_69.png](./09_figures/B08775_09_69.png)
 
@@ -1515,7 +1565,7 @@ To import third-party 3D models and animations from Mixamo, follow these steps:
 
 1. Download your character, choosing FBX For Unity (.fbx) and T-pose.
 
-    ![Insert Image B08775_09_72.png](./09_figures/B08775_09_72  .png)
+    ![Insert Image B08775_09_72.png](./09_figures/B08775_09_72.png)
 
 1. Create a new 3D Unity project, and in the Project panel create a folder named Models.
 
@@ -1562,15 +1612,16 @@ Hierarchy, and can view the Animator panel, you'll see how the Gold Swing Animat
     ![Insert Image B08775_09_76.png](./09_figures/B08775_09_76.png)
 
 
-
-
 <!-- ******************************** -->
 <!-- ******************************** -->
 
 ## How it works...
 
-We have dipped our toes into the wide range of features of the 3D GameKit. Hopefully this recipe gives an idea of how
- to work with the provided Prefabs, and how 3DGamekit components could be added to custom GameObjects.
+Mixamo exports 3D rigged character models and Animation Clips in FBX format. The Materials for models are embedded in
+ the FBX file, so we had to extract them once the model was imported into Unity.
+ 
+Unity controls the animation of models with an Animator Controller, so we had to create one for our character model, 
+and then drag in the Animation Clip we wished to use to animate our model.
  
 
 <!-- ******************************** -->
@@ -1602,7 +1653,23 @@ Additional Animation Clips can be added to the State Chart in the characters Ani
 
 ## Information sources about importing models and animations into Unity
 
-Learn more about model and animation importing fromthe following:
+Learn more about model and animation importing from the following:
 
-    - 
+    - Unity docs on importing 3D Models
+    
+        - https://docs.unity3d.com/Manual/HOWTO-importObject.html
+        
+    - Unity docs about the Model Import Settings window:
+    
+        - https://docs.unity3d.com/Manual/class-FBXImporter.html
+        
+    - Unity docs about the Model tab:
+    
+        - https://docs.unity3d.com/Manual/FBXImporter-Model.html
+
+    - Unity docs about Model file formats:
+    
+        - https://docs.unity3d.com/Manual/3D-formats.html
+
+
 
