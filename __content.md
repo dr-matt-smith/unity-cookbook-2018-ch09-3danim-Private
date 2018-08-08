@@ -25,6 +25,7 @@ In this chapter, we will cover:
 
 11. Creating a game with the 3D Gamekit
 
+12. Importing third-party 3D models and animations from Mixamo
 
 
 <!-- ******************************** -->
@@ -1442,7 +1443,6 @@ from 0 to 1, and for its Key type Crystal. For the On Add() events click the plu
  Ellen into the Object slot (below Runtime Only). Change the function from No Function to InventoryController Add 
  Item. Finally, type the name of this item in the Inventory to be Crystal.
 
-
     ![Insert Image B08775_09_69.png](./09_figures/B08775_09_69.png)
 
 1. Run the Scene. Ellen can now open the Door (via the PressurePad), and walk into the Crystal, which is added to her
@@ -1470,3 +1470,139 @@ Learn more:
     - Download the 3DGameKit, including sample Scene, from the Asset Store:
     
         - https://assetstore.unity.com/packages/essentials/tutorial-projects/3d-game-kit-beta-115747?_ga=2.127077645.1823824032.1533576706-1834737598.1481552646
+
+
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+<!-- ******** new recipe ********** -->
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+# Importing third-party 3D models and animations from Mixamo
+
+While there are many 3D models and animations available ready to use in Unity from the Asset Store, there are many 
+more sources of 3D assets from third-party organisatins. Mixamo (now part of Adobe) offers a fantasic range of 
+characters and animations via their web-based system. 
+
+In this recipe we'll select and download a character, and some animations, formatting them for use with Unity, and 
+controlling the animations with an Animation Controller state chart.
+
+![Insert Image B08775_09_71.png](./09_figures/B08775_09_71.png)
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## Getting ready
+
+This recipe uses the free Adobe Mixamo system - so you'll need to sign up for an account with them if you don't have 
+one already.
+
+<!-- ******************************* -->
+<!-- ******************************* -->
+
+## How to do it...
+
+To import third-party 3D models and animations from Mixamo, follow these steps:
+
+1. Open a Web Browser and visit Mixamo.com
+
+1. Sign up/Login with your Mixamo/Adobe account
+
+1. Select the Characters section (from Nav bar at top left of web page)
+
+1. Select your character, e.g. Lola B Styperek. You'll see this character appear in the right-hand preview panel.
+
+1. Download your character, choosing FBX For Unity (.fbx) and T-pose.
+
+    ![Insert Image B08775_09_72.png](./09_figures/B08775_09_72  .png)
+
+1. Create a new 3D Unity project, and in the Project panel create a folder named Models.
+
+1. Import the downloaded FBX file into folder Models.
+
+1. Select the asset file in the Project panel, and in the Inspector select the Materials section. 
+
+1. Click the Extract Textures... button, and extract the model's Textures into your Models folder. If asked to fix an issue of a Material using a Texture as a Normal Map, choose Fix Now.
+
+    ![Insert Image B08775_09_73.png](./09_figures/B08775_09_73.png)
+
+1. Drag clone of character from Project panel into the Scene.
+
+    ![Insert Image B08775_09_74.png](./09_figures/B08775_09_74.png)
+
+1. We need a Animator Controller to manage animations. Create a new Animator Controller file in the Project panel, named Lola-Animator-Controller.
+
+1. Select Lola B Styperek in the Hierarchy. In the Inspector you'll see a Controller slot for the Animator component. Drag file Lola-Animator-Controller from the project panel into the Animator | Controller slot.
+
+1. Now let's animate this model. Go back to the Mixamo.com webpage, and select an animation, e.g. Golf Drive. Click the Download button, and choose options:
+
+	- Format: FBX for Unity (.fbx)
+	
+	- Frames per second: 30
+	
+	- Skin: Without skin
+	
+	- Keyframe reduction: none
+
+    ![Insert Image B08775_09_74.png](./09_figures/B08775_09_74.png)
+
+1. Import this Animatiojn Clip FBX file (mine was named: lola_b_styperek@Golf Drive.fbx) into the Animation folder of
+ your Unity project.
+
+1. Double-click file Lola-Animator-Controller to open the Animator (state machine) editor panel.
+
+1. Drag the Gold Drive Animation Clip into the Animator panel - it should appear as an Orange state, with a transition from Entry to it (i.e this one state becomes the default state).
+
+    ![Insert Image B08775_09_75.png](./09_figures/B08775_09_75.png)
+
+1. Run the Scene. You should now see Lola practicing her golf swing. If you have the character selected in the 
+Hierarchy, and can view the Animator panel, you'll see how the Gold Swing Animation Clip (State) is playing.
+
+    ![Insert Image B08775_09_76.png](./09_figures/B08775_09_76.png)
+
+
+
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## How it works...
+
+We have dipped our toes into the wide range of features of the 3D GameKit. Hopefully this recipe gives an idea of how
+ to work with the provided Prefabs, and how 3DGamekit components could be added to custom GameObjects.
+ 
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## There's more...
+
+Here are some ways to go further with this recipe.
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## Looping the animation
+
+Select the Animation Clip in the Project panel, and in the Inspector check its Loop Time option, and click the button
+ to Apply the change to this asset file. When you run the Scene Lola will now repeat the animation indefinately.
+  
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## Scripting events to control when Animation Clips are played
+
+Additional Animation Clips can be added to the State Chart in the characters Animator Controller. You can then define
+ variables and Triggers, to the basis of when Animations Transition from one clip to another. Many of the recipes in 
+ this chapter illustrate ways to allow scripts to influence the Transition from one Animation Clip (State) to another.
+
+<!-- ******************************** -->
+<!-- ******************************** -->
+
+## Information sources about importing models and animations into Unity
+
+Learn more about model and animation importing fromthe following:
+
+    - 
+
